@@ -7,14 +7,29 @@ public class GameController : MonoBehaviour
 {
     [SerializeField] private Transform tubeTransform;
 
-    public void Init()
+    private GeneralConfig generalConfig;
+
+    public void Init(PlayerInput playerInput)
     {
-            
+        playerInput.OnDirectionPressed += DirectionPressed;
+
+        generalConfig = Root.ConfigManager.GeneralConfig;
     }
 
-    private void Update()
+    private void DirectionPressed(PlayerInput.Direction direction)
     {
-        float radius = Root.ConfigManager.GeneralConfig.tubeRadius;
-        tubeTransform.localScale = 2 * radius * Vector3.one;
+        float mult = 0;
+        switch (direction)
+        {
+            case PlayerInput.Direction.LEFT:
+                mult = 1;
+                break;
+            case PlayerInput.Direction.RIGHT:
+                mult = -1;
+                break;
+        }
+
+        float rotation = generalConfig.tubeRotationSpeed * Time.deltaTime * mult;
+        tubeTransform.Rotate(Vector3.forward, rotation);
     }
 }

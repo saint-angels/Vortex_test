@@ -9,7 +9,8 @@ public class Root : MonoBehaviour
     [SerializeField] private UIManager uiManager = null;
     [SerializeField] private Player player = null;
     [SerializeField] private GameController gameController = null;
-
+    [SerializeField] private PipeGenerator pipeGenerator = null;
+    
     private static Root _instance;
 
     private void Awake()
@@ -21,8 +22,10 @@ public class Root : MonoBehaviour
     {
         cameraController.Init();
         uiManager.Init();
-        
+
         player.Init();
+        GameController.Init(player.Input);
+        pipeGenerator.Init();
     }
 
     public static GameController GameController => _instance.gameController;
