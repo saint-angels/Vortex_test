@@ -9,7 +9,7 @@ public class PipeSegment : MonoBehaviour
 
     private void Awake()
     {
-        Length = GetComponentInChildren<MeshFilter>().mesh.bounds.extents.z;
+        Length = GetComponentInChildren<MeshFilter>().mesh.bounds.size.z;
     }
 
     public void Init()

@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: facdabeaca4a5494ea09839dab38e4e1, type: 3}
   m_Name: PipeGeneratorConfig
   m_EditorClassIdentifier: 
-  maxAlivePipes: 2
-  pipeMoveSpeed: 1
+  maxAlivePipes: 10
+  pipeMoveSpeed: 100
+  pipeDisappearZ: -20

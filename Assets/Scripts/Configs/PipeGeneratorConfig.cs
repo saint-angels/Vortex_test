@@ -8,4 +8,5 @@ public class PipeGeneratorConfig : ScriptableObject
 {
     public int maxAlivePipes = 2;
     public float pipeMoveSpeed = 1f;
+    public float pipeDisappearZ = -20;
 }
