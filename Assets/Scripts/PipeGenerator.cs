@@ -37,6 +37,7 @@ public class PipeGenerator : MonoBehaviour
         {
             bool firstPipe = livePipeSegments.Count == 0;
             GameObject newPipe = SimplePool.Spawn(pipeSegmentPrefab.gameObject, Vector3.zero, Quaternion.identity, pipeHolder);
+            newPipe.transform.localRotation = Quaternion.identity;
             PipeSegment newPipeSegment = newPipe.GetComponent<PipeSegment>();
             livePipeSegments.Add(newPipeSegment);
             newPipeSegment.Init();

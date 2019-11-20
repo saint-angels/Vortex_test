@@ -5,15 +5,48 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    enum GameState
+    {
+        MAIN_MENU,
+        PLAYING
+    }
+    
     [SerializeField] private Transform tubeTransform;
 
     private GeneralConfig generalConfig;
 
-    public void Init(PlayerInput playerInput)
+    private GameState currentState;
+
+    public void Init(Player player)
     {
-        playerInput.OnDirectionPressed += DirectionPressed;
+        player.OnDeath += OnPlayerOnDeath;
+        player.Input.OnDirectionPressed += DirectionPressed;
 
         generalConfig = Root.ConfigManager.GeneralConfig;
+        
+        
+    }
+
+    private void SetState(GameState newState)
+    {
+        switch (newState)
+        {
+            case GameState.MAIN_MENU:
+                break;
+            case GameState.PLAYING:
+                break;
+        }
+    }
+
+    public void Reset()
+    {
+        
+    }
+
+    private void OnPlayerOnDeath()
+    {
+        print("Player died!");
+        SetState(GameState.MAIN_MENU);
     }
 
     private void DirectionPressed(PlayerInput.Direction direction)

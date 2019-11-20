@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    public event Action OnDeath = () => { };
+    
     public PlayerInput Input { get; private set; }
 
     [SerializeField] private Transform playerShell;
@@ -33,6 +35,10 @@ public class Player : MonoBehaviour
         //Make bottom of the view always look at center
 //        transform.up = playerShell.position - Vector3.zero;
     }
-    
-    
+
+    private void OnTriggerEnter(Collider other)
+    {
+        print("Collision!");
+        OnDeath();
+    }
 }

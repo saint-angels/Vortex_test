@@ -24,7 +24,7 @@ public class Root : MonoBehaviour
         uiManager.Init();
 
         player.Init();
-        GameController.Init(player.Input);
+        GameController.Init(player);
         pipeGenerator.Init();
     }
 
