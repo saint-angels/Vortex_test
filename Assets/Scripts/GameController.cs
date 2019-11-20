@@ -10,8 +10,6 @@ public class GameController : MonoBehaviour
         MAIN_MENU,
         PLAYING
     }
-    
-    [SerializeField] private Transform tubeTransform;
 
     private GeneralConfig generalConfig;
 
@@ -20,11 +18,15 @@ public class GameController : MonoBehaviour
     public void Init(Player player)
     {
         player.OnDeath += OnPlayerOnDeath;
-        player.Input.OnDirectionPressed += DirectionPressed;
 
         generalConfig = Root.ConfigManager.GeneralConfig;
-        
-        
+        Root.UIManager.OnPlayPressed += OnPlayPressed;
+        SetState(GameState.MAIN_MENU);
+    }
+
+    private void OnPlayPressed()
+    {
+        SetState(GameState.PLAYING);
     }
 
     private void SetState(GameState newState)
@@ -32,8 +34,12 @@ public class GameController : MonoBehaviour
         switch (newState)
         {
             case GameState.MAIN_MENU:
+                Root.PipeController.SetActive(false);
+                Root.UIManager.SetMenuVisible(true);
                 break;
             case GameState.PLAYING:
+                Root.PipeController.SetActive(true);
+                Root.UIManager.SetMenuVisible(false);
                 break;
         }
     }
@@ -47,22 +53,5 @@ public class GameController : MonoBehaviour
     {
         print("Player died!");
         SetState(GameState.MAIN_MENU);
-    }
-
-    private void DirectionPressed(PlayerInput.Direction direction)
-    {
-        float mult = 0;
-        switch (direction)
-        {
-            case PlayerInput.Direction.LEFT:
-                mult = 1;
-                break;
-            case PlayerInput.Direction.RIGHT:
-                mult = -1;
-                break;
-        }
-
-        float rotation = generalConfig.tubeRotationSpeed * Time.deltaTime * mult;
-        tubeTransform.Rotate(Vector3.forward, rotation);
     }
 }

@@ -2,26 +2,66 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PipeGenerator : MonoBehaviour
+public class PipeController : MonoBehaviour
 {
     [SerializeField] private Transform pipeHolder;
     [SerializeField] private PipeSegment pipeSegmentPrefab;
     
     private PipeGeneratorConfig generatorConfig;
-
-    private Vector2 pipeHolderXY;
     
     private readonly List<PipeSegment> livePipeSegments = new List<PipeSegment>();
+    private bool isActive;
+    private GeneralConfig generalConfig;
+
     
     public void Init()
     {
-        pipeHolderXY = pipeHolder.transform.position;
         generatorConfig = Root.ConfigManager.PipeGeneratorConfig;
+        generalConfig = Root.ConfigManager.GeneralConfig;
+        Root.Player.Input.OnDirectionPressed += DirectionPressed;
+        isActive = false;
+    }
+
+    public void SetActive(bool isActive)
+    {
+        this.isActive = isActive;
+
+        if (isActive)
+        {
+            SetPipeRotation(Quaternion.identity);
+        }
+    }
+    
+    private void DirectionPressed(PlayerInput.Direction direction)
+    {
+        float mult = 0;
+        switch (direction)
+        {
+            case PlayerInput.Direction.LEFT:
+                mult = 1;
+                break;
+            case PlayerInput.Direction.RIGHT:
+                mult = -1;
+                break;
+        }
+        
+        float deltaRotation = generalConfig.tubeRotationSpeed * Time.deltaTime * mult;
+        float newRotation = pipeHolder.rotation.eulerAngles.z + deltaRotation;
+        SetPipeRotation(Quaternion.Euler(0,0,newRotation));
+    }
+
+    private void SetPipeRotation(Quaternion rotation)
+    {
+        pipeHolder.rotation = rotation;
     }
 
     void Update()
     {
-
+        if (isActive == false)
+        {
+            return;
+        }
+        
         for (int i = livePipeSegments.Count - 1; i >= 0; i--)
         {
             PipeSegment pipeSegment = livePipeSegments[i];

@@ -9,7 +9,7 @@ public class Root : MonoBehaviour
     [SerializeField] private UIManager uiManager = null;
     [SerializeField] private Player player = null;
     [SerializeField] private GameController gameController = null;
-    [SerializeField] private PipeGenerator pipeGenerator = null;
+    [SerializeField] private PipeController pipeController = null;
     
     private static Root _instance;
 
@@ -25,7 +25,7 @@ public class Root : MonoBehaviour
 
         player.Init();
         GameController.Init(player);
-        pipeGenerator.Init();
+        pipeController.Init();
     }
 
     public static GameController GameController => _instance.gameController;
@@ -34,4 +34,5 @@ public class Root : MonoBehaviour
     public static UIManager UIManager => _instance.uiManager;
 
     public static Player Player => _instance.player;
+    public static PipeController PipeController => _instance.pipeController;
 }
