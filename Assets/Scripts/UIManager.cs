@@ -10,9 +10,10 @@ public class UIManager : MonoBehaviour
 {
     public event Action OnPlayPressed = () => { };
     
-    [SerializeField] private RectTransform hudContainer = null;
-    [SerializeField] private Button playButton = null;
-    [SerializeField] private GameObject menu;
+    [SerializeField] private Button playButton;
+    [SerializeField] private GameObject menuPanel;
+    [SerializeField] private GameObject gameplayPanel;
+    [SerializeField] private TMPro.TextMeshProUGUI scoreLabel;
 
     private AnimationConfig animationCfg;
 
@@ -24,11 +25,18 @@ public class UIManager : MonoBehaviour
     public void Init()
     {
         animationCfg = Root.ConfigManager.Animation;
+        Root.GameController.OnScoreUpdated += OnScoreUpdated;
+    }
+
+    private void OnScoreUpdated(float score)
+    {
+        scoreLabel.text = $"{(int)score}";
     }
 
     public void SetMenuVisible(bool isVisible)
     {
-        menu.SetActive(isVisible);
+        menuPanel.SetActive(isVisible);
+        gameplayPanel.SetActive(isVisible == false);
     }
     
 

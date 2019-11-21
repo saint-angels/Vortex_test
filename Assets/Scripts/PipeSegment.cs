@@ -13,17 +13,17 @@ public class PipeSegment : MonoBehaviour
         Length = GetComponentInChildren<MeshFilter>().mesh.bounds.size.z;
     }
 
-    public void Init(GameObject obstaclePrefab)
+    public void Init()
     {
-        foreach (Transform obstacle in obstacleHolder)
-        {
-            Destroy(obstacle.gameObject);
-        }
-
-        if (obstaclePrefab != null)
-        {
-            Instantiate(obstaclePrefab, obstacleHolder);
-        }
+//        foreach (Transform obstacle in obstacleHolder)
+//        {
+//            Destroy(obstacle.gameObject);
+//        }
+//
+//        if (obstaclePrefab != null)
+//        {
+//            Instantiate(obstaclePrefab, obstacleHolder);
+//        }
 
     }
 }

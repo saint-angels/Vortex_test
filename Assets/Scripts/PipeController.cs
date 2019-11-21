@@ -6,9 +6,7 @@ using UnityEngine;
 public class PipeController : MonoBehaviour
 {
     [SerializeField] private Transform pipeHolder;
-    [SerializeField] private PipeSegment pipeSegmentPrefab;
-    [SerializeField] private GameObject obstaclePrefab;
-    
+
     private PipeGeneratorConfig generatorConfig;
     
     private readonly List<PipeSegment> livePipeSegments = new List<PipeSegment>();
@@ -85,7 +83,17 @@ public class PipeController : MonoBehaviour
         while (livePipeSegments.Count < generatorConfig.maxAlivePipes)
         {
             bool firstPipe = livePipeSegments.Count == 0;
-            GameObject newPipe = SimplePool.Spawn(pipeSegmentPrefab.gameObject, Vector3.zero, Quaternion.identity, pipeHolder);
+            PipeSegment randomPipePrefab;
+            if (pipeNumber > generatorConfig.startEmptyPipes)
+            {
+                randomPipePrefab = generatorConfig.pipes[Random.Range(0, generatorConfig.pipes.Length)];
+            }
+            else
+            {
+                randomPipePrefab = generatorConfig.emptyPipe;
+            }
+            
+            GameObject newPipe = SimplePool.Spawn(randomPipePrefab.gameObject, Vector3.zero, Quaternion.identity, pipeHolder);
             newPipe.transform.localRotation = Quaternion.identity;
             PipeSegment newPipeSegment = newPipe.GetComponent<PipeSegment>();
             livePipeSegments.Add(newPipeSegment);
@@ -93,11 +101,9 @@ public class PipeController : MonoBehaviour
             {
                 newPipe.transform.position = new Vector3(0,0 , generatorConfig.pipeDisappearZ);
             }
-            
-            
+
             //INIT THE PIPE
-            GameObject obstaclePrefab = pipeNumber > generatorConfig.startEmptyPipes ? this.obstaclePrefab : null;
-            newPipeSegment.Init(obstaclePrefab);
+            newPipeSegment.Init();
             pipeNumber++;
         }
 

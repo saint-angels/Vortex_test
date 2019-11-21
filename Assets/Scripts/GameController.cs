@@ -2,10 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using Configs;
+using UnityEditor;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
 {
+    public event Action<float> OnScoreUpdated = (score) => { }; 
+    
     enum GameState
     {
         MAIN_MENU,
@@ -15,6 +18,18 @@ public class GameController : MonoBehaviour
     private GeneralConfig generalConfig;
 
     private GameState currentState;
+
+    private float Score
+    {
+        set
+        {
+            score = value;
+            OnScoreUpdated(score);
+        }
+        get => score;
+    }
+
+    private float score;
 
     public void Init(Player player)
     {
@@ -30,8 +45,21 @@ public class GameController : MonoBehaviour
         SetState(GameState.PLAYING);
     }
 
+    void Update()
+    {
+        switch (currentState)
+        {
+            case GameState.MAIN_MENU:
+                break;
+            case GameState.PLAYING:
+                Score += Root.ConfigManager.PipeGeneratorConfig.pipeMoveSpeed * Time.deltaTime;
+                break;
+        }
+    }
+
     private void SetState(GameState newState)
     {
+        Score = 0;
         switch (newState)
         {
             case GameState.MAIN_MENU:
@@ -43,6 +71,8 @@ public class GameController : MonoBehaviour
                 Root.UIManager.SetMenuVisible(false);
                 break;
         }
+
+        currentState = newState;
     }
 
     public void Reset()

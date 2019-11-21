@@ -12,7 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: facdabeaca4a5494ea09839dab38e4e1, type: 3}
   m_Name: PipeGeneratorConfig
   m_EditorClassIdentifier: 
+  emptyPipe: {fileID: 3737906448775134912, guid: 606930445824289488a9325797c96e53,
+    type: 3}
+  pipes:
+  - {fileID: 430384507006918981, guid: 73feedbacc9ac104f84aa94baf82ae3f, type: 3}
+  - {fileID: 430384507006918981, guid: 5c6f878aa80c20341a8324eb6d10c364, type: 3}
   startEmptyPipes: 3
   maxAlivePipes: 10
-  pipeMoveSpeed: 50
-  pipeDisappearZ: -20
+  pipeMoveSpeed: 10
+  pipeDisappearZ: -5
