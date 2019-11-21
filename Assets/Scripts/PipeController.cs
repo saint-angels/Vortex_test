@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Configs;
 using UnityEngine;
 
 public class PipeController : MonoBehaviour
 {
     [SerializeField] private Transform pipeHolder;
     [SerializeField] private PipeSegment pipeSegmentPrefab;
+    [SerializeField] private GameObject obstaclePrefab;
     
     private PipeGeneratorConfig generatorConfig;
     
@@ -13,13 +15,13 @@ public class PipeController : MonoBehaviour
     private bool isActive;
     private GeneralConfig generalConfig;
 
+    private int pipeNumber;
     
     public void Init()
     {
         generatorConfig = Root.ConfigManager.PipeGeneratorConfig;
         generalConfig = Root.ConfigManager.GeneralConfig;
         Root.Player.Input.OnDirectionPressed += DirectionPressed;
-        isActive = false;
     }
 
     public void SetActive(bool isActive)
@@ -29,6 +31,14 @@ public class PipeController : MonoBehaviour
         if (isActive)
         {
             SetPipeRotation(Quaternion.identity);
+            pipeNumber = 0;
+            
+            for (int i = livePipeSegments.Count - 1; i >= 0; i--)
+            {
+                PipeSegment pipeSegment = livePipeSegments[i];
+                livePipeSegments.RemoveAt(i);
+                SimplePool.Despawn(pipeSegment.gameObject);
+            }
         }
     }
     
@@ -71,8 +81,7 @@ public class PipeController : MonoBehaviour
                 SimplePool.Despawn(pipeSegment.gameObject);
             }
         }
-        
-        
+
         while (livePipeSegments.Count < generatorConfig.maxAlivePipes)
         {
             bool firstPipe = livePipeSegments.Count == 0;
@@ -80,11 +89,16 @@ public class PipeController : MonoBehaviour
             newPipe.transform.localRotation = Quaternion.identity;
             PipeSegment newPipeSegment = newPipe.GetComponent<PipeSegment>();
             livePipeSegments.Add(newPipeSegment);
-            newPipeSegment.Init();
             if (firstPipe)
             {
                 newPipe.transform.position = new Vector3(0,0 , generatorConfig.pipeDisappearZ);
             }
+            
+            
+            //INIT THE PIPE
+            GameObject obstaclePrefab = pipeNumber > generatorConfig.startEmptyPipes ? this.obstaclePrefab : null;
+            newPipeSegment.Init(obstaclePrefab);
+            pipeNumber++;
         }
 
         Vector3 firstPipePosition = Vector3.zero;

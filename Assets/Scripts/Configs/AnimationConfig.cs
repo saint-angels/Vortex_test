@@ -1,10 +1,10 @@
-﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "AnimationConfig", menuName = "Config/AnimationConfig")]
-public class AnimationConfig : ScriptableObject
+namespace Configs
 {
+    [CreateAssetMenu(fileName = "AnimationConfig", menuName = "Config/AnimationConfig")]
+    public class AnimationConfig : ScriptableObject
+    {
 
+    }
 }

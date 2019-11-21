@@ -468,7 +468,7 @@ GameObject:
   - component: {fileID: 420720767}
   - component: {fileID: 420720768}
   m_Layer: 0
-  m_Name: PipeGenerator
+  m_Name: PipeController
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -504,6 +504,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pipeHolder: {fileID: 1013368363}
   pipeSegmentPrefab: {fileID: 3737906448775134912, guid: 606930445824289488a9325797c96e53,
+    type: 3}
+  obstaclePrefab: {fileID: 4693831994896821319, guid: 493100341a573404ca689849e933099f,
     type: 3}
 --- !u!1 &519420028
 GameObject:

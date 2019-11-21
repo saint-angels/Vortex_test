@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Configs;
 using UnityEngine;
 
 public class GameController : MonoBehaviour
@@ -21,7 +22,7 @@ public class GameController : MonoBehaviour
 
         generalConfig = Root.ConfigManager.GeneralConfig;
         Root.UIManager.OnPlayPressed += OnPlayPressed;
-        SetState(GameState.MAIN_MENU);
+        SetState(GameState.PLAYING);
     }
 
     private void OnPlayPressed()

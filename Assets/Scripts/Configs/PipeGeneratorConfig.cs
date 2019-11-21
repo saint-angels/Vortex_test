@@ -1,12 +1,13 @@
-﻿using DG.Tweening;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "PipeGeneratorConfig", menuName = "Config/PipeGeneratorConfig")]
-public class PipeGeneratorConfig : ScriptableObject
+namespace Configs
 {
-    public int maxAlivePipes = 2;
-    public float pipeMoveSpeed = 1f;
-    public float pipeDisappearZ = -20;
+    [CreateAssetMenu(fileName = "PipeGeneratorConfig", menuName = "Config/PipeGeneratorConfig")]
+    public class PipeGeneratorConfig : ScriptableObject
+    {
+        public int startEmptyPipes = 5;
+        public int maxAlivePipes = 2;
+        public float pipeMoveSpeed = 1f;
+        public float pipeDisappearZ = -20;
+    }
 }
