@@ -8,10 +8,13 @@ using Random = System.Random;
 
 public class PipeSegment : MonoBehaviour
 {
+    public bool HasObstacles => obstacleRenderer != null;
+    
     public bool ObstaclesVisible { get; private set; }
     public float Length { get; private set; }
 
     public int StartRotationZ { get; private set; }
+    public int EndRotationZ { get; private set; }
     
     [SerializeField] private int[] allowedStartRotations;
     [SerializeField] private Transform obstacleHolder;
@@ -38,6 +41,7 @@ public class PipeSegment : MonoBehaviour
         if (allowedStartRotations.Length > 1)
         {
             StartRotationZ = allowedStartRotations[UnityEngine.Random.Range(0, allowedStartRotations.Length)];
+            EndRotationZ = allowedStartRotations[UnityEngine.Random.Range(0, allowedStartRotations.Length)];
         }
         
         SetObstacleVisibility(0);

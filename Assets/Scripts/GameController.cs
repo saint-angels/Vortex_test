@@ -63,7 +63,7 @@ public class GameController : MonoBehaviour
             case GameState.MAIN_MENU:
                 break;
             case GameState.PLAYING:
-                Score += Root.ConfigManager.PipeGeneratorConfig.pipeMoveSpeed * Time.deltaTime;
+                Score += Root.ConfigManager.PipeGeneratorConfig.pipeMoveSpeedStart * Time.deltaTime;
                 break;
         }
     }

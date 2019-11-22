@@ -14,7 +14,9 @@ public class PipeController : MonoBehaviour
     private GeneralConfig generalConfig;
 
     private int pipeNumber;
-    
+
+    private float currentSpeed;
+
     public void Init()
     {
         generatorConfig = Root.ConfigManager.PipeGeneratorConfig;
@@ -38,6 +40,8 @@ public class PipeController : MonoBehaviour
                 livePipeSegments.RemoveAt(i);
                 SimplePool.Despawn(pipeSegment.gameObject);
             }
+            
+            currentSpeed = generatorConfig.pipeMoveSpeedStart;
         }
     }
     
@@ -70,6 +74,8 @@ public class PipeController : MonoBehaviour
         {
             return;
         }
+
+        currentSpeed += Time.deltaTime / generatorConfig.pipeSpeedChangeDurationSec;
         
         for (int i = livePipeSegments.Count - 1; i >= 0; i--)
         {
@@ -84,17 +90,19 @@ public class PipeController : MonoBehaviour
         while (livePipeSegments.Count < generatorConfig.maxAlivePipes)
         {
             bool firstPipe = livePipeSegments.Count == 0;
-            PipeSegment randomPipePrefab;
-            if (pipeNumber > generatorConfig.startEmptyPipes)
+            PipeSegment selectedPipePrefab;
+            bool inBetweenEmptyPipe = firstPipe || livePipeSegments[livePipeSegments.Count - 1].HasObstacles;  
+            if (pipeNumber <= generatorConfig.startEmptyPipes || inBetweenEmptyPipe)
             {
-                randomPipePrefab = generatorConfig.pipes[Random.Range(0, generatorConfig.pipes.Length)];
+                selectedPipePrefab = generatorConfig.emptyPipe;
+                
             }
             else
             {
-                randomPipePrefab = generatorConfig.emptyPipe;
+                selectedPipePrefab = generatorConfig.pipes[Random.Range(0, generatorConfig.pipes.Length)];
             }
             
-            GameObject newPipe = SimplePool.Spawn(randomPipePrefab.gameObject, Vector3.zero, Quaternion.identity, pipeHolder);
+            GameObject newPipe = SimplePool.Spawn(selectedPipePrefab.gameObject, Vector3.zero, Quaternion.identity, pipeHolder);
             PipeSegment newPipeSegment = newPipe.GetComponent<PipeSegment>();
             livePipeSegments.Add(newPipeSegment);
             if (firstPipe)
@@ -120,7 +128,7 @@ public class PipeController : MonoBehaviour
             
             if (i == 0)
             {
-                float moveDelta = -1 * Time.deltaTime * generatorConfig.pipeMoveSpeed;
+                float moveDelta = -1 * Time.deltaTime * currentSpeed;
                 pipeSegment.transform.localPosition = new Vector3(0, 0, pipeSegment.transform.localPosition.z + moveDelta);
                 firstPipePosition = pipeSegment.transform.localPosition;
             }
