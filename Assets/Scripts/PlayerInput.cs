@@ -13,9 +13,7 @@ public class PlayerInput : MonoBehaviour
         LEFT,
         RIGHT
     }
-    
-    private Direction direction = Direction.NONE;
-    
+
     public void Init()
     {
         
@@ -26,17 +24,11 @@ public class PlayerInput : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            direction = Direction.LEFT;
+            OnDirectionPressed(Direction.LEFT);
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            direction = Direction.RIGHT;
+            OnDirectionPressed(Direction.RIGHT);
         }
-        else
-        {
-            direction = Direction.NONE;
-        }
-
-        OnDirectionPressed(direction);
     }
 }

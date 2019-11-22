@@ -15,9 +15,9 @@ MonoBehaviour:
   emptyPipe: {fileID: 3737906448775134912, guid: 606930445824289488a9325797c96e53,
     type: 3}
   pipes:
-  - {fileID: 430384507006918981, guid: 73feedbacc9ac104f84aa94baf82ae3f, type: 3}
-  - {fileID: 430384507006918981, guid: 5c6f878aa80c20341a8324eb6d10c364, type: 3}
+  - {fileID: 430384507006918981, guid: 6f2f87cc632185b49890443e14ea296d, type: 3}
+  obstaclesApperPipeIndex: 5
   startEmptyPipes: 3
   maxAlivePipes: 10
-  pipeMoveSpeed: 10
+  pipeMoveSpeed: 20
   pipeDisappearZ: -5

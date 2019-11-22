@@ -33,11 +33,22 @@ public class GameController : MonoBehaviour
 
     public void Init(Player player)
     {
+        Root.Player.Input.OnDirectionPressed += KeyboardDirectionPressed;
         player.OnDeath += OnPlayerOnDeath;
 
         generalConfig = Root.ConfigManager.GeneralConfig;
         Root.UIManager.OnPlayPressed += OnPlayPressed;
         SetState(GameState.PLAYING);
+        
+        
+    }
+
+    private void KeyboardDirectionPressed(PlayerInput.Direction obj)
+    {
+        if (currentState == GameState.PLAYING)
+        {
+            Root.UIManager.SetButtonHelpersVisible(false);
+        }
     }
 
     private void OnPlayPressed()
@@ -69,6 +80,7 @@ public class GameController : MonoBehaviour
             case GameState.PLAYING:
                 Root.PipeController.SetActive(true);
                 Root.UIManager.SetMenuVisible(false);
+                Root.Player.PrepareForRun();
                 break;
         }
 
@@ -82,7 +94,7 @@ public class GameController : MonoBehaviour
 
     private void OnPlayerOnDeath()
     {
-        print("Player died!");
+        Root.CameraController.StartCameraShake(.5f);
         SetState(GameState.MAIN_MENU);
     }
 }

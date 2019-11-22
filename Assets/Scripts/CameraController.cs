@@ -1,7 +1,9 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Configs;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class CameraController : MonoBehaviour
 {
@@ -18,13 +20,26 @@ public class CameraController : MonoBehaviour
 
         originalCameraPosition = camera.transform.position;
     }
-    
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            StartDeathShake();
+        }
+    }
+
     public Vector2 WorldToScreenPoint(Vector3 position)
     {
         return camera.WorldToScreenPoint(position);
     }
 
-    private void StartCameraShake(float duration)
+    public void StartDeathShake()
+    {
+        StartCameraShake(cameraConfig.deathShakeDuration);
+    }
+
+    public void StartCameraShake(float duration)
     {
         if (currentCameraShakeRoutine != null)
         {

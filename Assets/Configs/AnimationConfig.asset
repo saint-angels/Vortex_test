@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e58af93c60ec2941968361aa3bf8c59, type: 3}
   m_Name: AnimationConfig
   m_EditorClassIdentifier: 
+  obstacleAppearenceEase: 6
+  obstacleAppearenceDuration: 0.7

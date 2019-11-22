@@ -18,8 +18,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMPro.TextMeshProUGUI scoreLabel;
 
     [Header("Screen controls")]
-    [SerializeField] private CustomButton screenButtonLeft;
-    [SerializeField] private CustomButton screenButtonRight;
+    [SerializeField] private RotationButton screenButtonLeft;
+    [SerializeField] private RotationButton screenButtonRight;
 
     private AnimationConfig animationCfg;
 
@@ -27,8 +27,14 @@ public class UIManager : MonoBehaviour
     {
         playButton.onClick.AddListener(() => OnPlayPressed());
 
-        screenButtonLeft.OnHeldDown += () => OnScreenDirectionPressed(PlayerInput.Direction.LEFT);
-        screenButtonRight.OnHeldDown += () => OnScreenDirectionPressed(PlayerInput.Direction.RIGHT);
+        screenButtonLeft.OnHeldDown += () => ScreenButtonLeftOnOnHeldDown(PlayerInput.Direction.LEFT);
+        screenButtonRight.OnHeldDown += () => ScreenButtonLeftOnOnHeldDown(PlayerInput.Direction.RIGHT);
+    }
+
+    private void ScreenButtonLeftOnOnHeldDown(PlayerInput.Direction direction)
+    {
+        SetButtonHelpersVisible(false);
+        OnScreenDirectionPressed(direction);
     }
 
     public void Init()
@@ -39,13 +45,22 @@ public class UIManager : MonoBehaviour
 
     private void OnScoreUpdated(float score)
     {
-        scoreLabel.text = $"{(int)score}";
+        scoreLabel.text = $"{score:n1}";
     }
 
-    public void SetMenuVisible(bool isVisible)
+    public void SetMenuVisible(bool isMenuVisible)
     {
-        menuPanel.SetActive(isVisible);
-        gameplayPanel.SetActive(isVisible == false);
+        menuPanel.SetActive(isMenuVisible);
+        gameplayPanel.SetActive(isMenuVisible == false);
+
+
+        SetButtonHelpersVisible(isMenuVisible == false);
+    }
+
+    public void SetButtonHelpersVisible(bool isVisible)
+    {
+        screenButtonLeft.SetArrowVisible(isVisible);
+        screenButtonRight.SetArrowVisible(isVisible);
     }
     
 

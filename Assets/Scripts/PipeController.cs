@@ -95,7 +95,6 @@ public class PipeController : MonoBehaviour
             }
             
             GameObject newPipe = SimplePool.Spawn(randomPipePrefab.gameObject, Vector3.zero, Quaternion.identity, pipeHolder);
-            newPipe.transform.localRotation = Quaternion.identity;
             PipeSegment newPipeSegment = newPipe.GetComponent<PipeSegment>();
             livePipeSegments.Add(newPipeSegment);
             if (firstPipe)
@@ -105,6 +104,7 @@ public class PipeController : MonoBehaviour
 
             //INIT THE PIPE
             newPipeSegment.Init();
+            newPipe.transform.localRotation = Quaternion.Euler(0,0, newPipeSegment.StartRotationZ);
             pipeNumber++;
         }
 
@@ -112,6 +112,11 @@ public class PipeController : MonoBehaviour
         for (int i = 0; i < livePipeSegments.Count; i++)
         {
             PipeSegment pipeSegment = livePipeSegments[i];
+
+            if (pipeSegment.ObstaclesVisible == false && i <= generatorConfig.obstaclesApperPipeIndex)
+            {
+                pipeSegment.ShowObstacles();
+            }
             
             if (i == 0)
             {

@@ -11,20 +11,24 @@ public class Player : MonoBehaviour
     public PlayerInput Input { get; private set; }
 
     [SerializeField] private Transform playerShell;
-    [SerializeField] private Transform playerModel;
+    [SerializeField] private Renderer playerRenderer;
+    [SerializeField] private ParticleSystem deathParticles;
+    [SerializeField] private Collider collider;
 
-    private float _angle;
     private GeneralConfig generalConfig;
 
-    //From -1(max left) to 1(max right)
-    private float roll;
-
-    private PlayerInput.Direction lastPressedDirection;
-    
     public void Init()
     {
         generalConfig = Root.ConfigManager.GeneralConfig;
         Input =  GetComponent<PlayerInput>();
+    }
+
+    public void PrepareForRun()
+    {
+        deathParticles.Stop(true);
+        deathParticles.Clear();
+        playerRenderer.enabled = true;
+        collider.enabled = true;
     }
 
         
@@ -32,14 +36,13 @@ public class Player : MonoBehaviour
     {
         float radius = Root.ConfigManager.GeneralConfig.playerRadius;
         playerShell.localScale = Vector3.one * radius * 2;
-        
-        //Make bottom of the view always look at center
-//        transform.up = playerShell.position - Vector3.zero;
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        print("Collision!");
+        deathParticles.Play(true);
+        playerRenderer.enabled = false;
+        collider.enabled = false;
         OnDeath();
     }
 }

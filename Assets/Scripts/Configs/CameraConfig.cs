@@ -7,7 +7,7 @@ namespace Configs
     {
         [Header("Screen shake")]
         public float shakeGeneralMagnitude = 1f;
-        public float shakeBlockDuration = 1f;
+        public float deathShakeDuration = .3f;
 
     }
 }

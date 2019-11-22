@@ -7,7 +7,8 @@ namespace Configs
     {
         public PipeSegment emptyPipe;
         public PipeSegment[] pipes;
-        
+
+        public int obstaclesApperPipeIndex = 5;
         public int startEmptyPipes = 5;
         public int maxAlivePipes = 2;
         public float pipeMoveSpeed = 1f;
