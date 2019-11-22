@@ -20,6 +20,7 @@ public class PipeController : MonoBehaviour
         generatorConfig = Root.ConfigManager.PipeGeneratorConfig;
         generalConfig = Root.ConfigManager.GeneralConfig;
         Root.Player.Input.OnDirectionPressed += DirectionPressed;
+        Root.UIManager.OnScreenDirectionPressed += DirectionPressed;
     }
 
     public void SetActive(bool isActive)

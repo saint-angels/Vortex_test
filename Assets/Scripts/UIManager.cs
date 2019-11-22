@@ -3,11 +3,13 @@ using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using Configs;
+using Helpers;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
+    public event Action<PlayerInput.Direction> OnScreenDirectionPressed = (dir) => { };
     public event Action OnPlayPressed = () => { };
     
     [SerializeField] private Button playButton;
@@ -15,11 +17,18 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gameplayPanel;
     [SerializeField] private TMPro.TextMeshProUGUI scoreLabel;
 
+    [Header("Screen controls")]
+    [SerializeField] private CustomButton screenButtonLeft;
+    [SerializeField] private CustomButton screenButtonRight;
+
     private AnimationConfig animationCfg;
 
     private void Awake()
     {
         playButton.onClick.AddListener(() => OnPlayPressed());
+
+        screenButtonLeft.OnHeldDown += () => OnScreenDirectionPressed(PlayerInput.Direction.LEFT);
+        screenButtonRight.OnHeldDown += () => OnScreenDirectionPressed(PlayerInput.Direction.RIGHT);
     }
 
     public void Init()
